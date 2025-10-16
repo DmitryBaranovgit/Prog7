@@ -1,3 +1,3 @@
 # Prog7
 
-## Labs
+## Lab
