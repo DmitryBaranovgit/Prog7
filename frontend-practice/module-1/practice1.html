@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Урок: Логические операции</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(120deg, #0d47a1, #1976d2);
+            color: #fff;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+        header h1 { font-size: 2.4rem; margin-bottom: 0.5rem; }
+        header p { opacity: 0.9; }
+        nav {
+            background: #ffffff;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            padding: 1rem;
+        }
+        nav a {
+            text-decoration: none;
+            font-weight: bold;
+            color: #1976d2;
+            transition: color 0.3s;
+        }
+        nav a:hover { color: #0d47a1; }
+        main {
+            max-width: 960px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        section {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+        h2 {
+            color: #0d47a1;
+            margin-bottom: 1rem;
+            border-bottom: 3px solid #0d47a1;
+            padding-bottom: 0.5rem;
+        }
+        h3 { color: #1976d2; margin-top: 1.2rem; }
+        .definition {
+            background: #e3f2fd;
+            border-left: 5px solid #1976d2;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 0.7rem;
+            text-align: center;
+        }
+        th {
+            background: #1976d2;
+            color: #fff;
+        }
+        tr:nth-child(even) { background: #f9f9f9; }
+        .example {
+            background: #ede7f6;
+            border-left: 5px solid #673ab7;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+        .task {
+            background: #fff8e1;
+            border: 2px dashed #ffb300;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        .answer {
+            display: none;
+            margin-top: 1rem;
+            background: #e8f5e9;
+            border-left: 5px solid #4caf50;
+            padding: 1rem;
+            border-radius: 6px;
+        }
+        .answer.show {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        button {
+            background: #1976d2;
+            color: #fff;
+            border: none;
+            padding: 0.6rem 1.4rem;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #0d47a1;
+            transform: translateY(-2px);
+        }
+        .checker {
+            background: #f1f8e9;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        .checker select { padding: 0.4rem; font-size: 1rem; }
+        footer {
+            background: #263238;
+            color: #fff;
+            text-align: center;
+            padding: 2rem 1rem;
+            margin-top: 3rem;
+        }
+        @media (max-width: 768px) {
+            header h1 { font-size: 1.8rem; }
+            section { padding: 1rem; }
+            nav ul { gap: 0.5rem; }
+        }
+    
+        body.dark {
+            background:#121212; color:#e0e0e0;
+        }
+        body.dark section{background:#1e1e1e;}
+        body.dark nav{background:#1c1c1c;}
+        body.dark table th{background:#333;}
+        #progressContainer{position:fixed;top:0;left:0;width:100%;height:6px;background:#ccc;z-index:1000;}
+        #progressBar{height:100%;width:0;background:#4caf50;transition:width 0.2s;}
+        .reveal{opacity:0;transform:translateY(30px);transition:0.6s;}
+        .reveal.active{opacity:1;transform:none;}
+    </style>
+</head>
+<body>
+<div id="progressContainer"><div id="progressBar"></div></div>
+<header>
+<button id="themeToggle" style="position:absolute;top:15px;right:15px;">Тёмная тема</button>
+    <h1>Логические операции</h1>
+    <p>Информатика · 10-11 класс</p>
+</header>
+<nav>
+    <ul>
+        <li><a href="#theory">Теория</a></li>
+        <li><a href="#examples">Примеры</a></li>
+        <li><a href="#interactive">Интерактив</a></li>
+        <li><a href="#tasks">Задания</a></li>
+    </ul>
+</nav>
+<main>
+    <section class="reveal" id="theory">
+        <h2>Теория</h2>
+        <div class="definition">
+            <p><strong>Логические операции</strong> — это операции над логическими значениями, которые принимают значения <em>Истина (1)</em> или <em>Ложь (0)</em>.</p>
+        </div>
+        <h3>Основные логические операции</h3>
+        <table>
+            <tr>
+                <th>Операция</th>
+                <th>Обозначение</th>
+                <th>Описание</th>
+            </tr>
+            <tr>
+                <td>И (AND)</td>
+                <td>∧</td>
+                <td>Истина, если оба операнда истинны</td>
+            </tr>
+            <tr>
+                <td>ИЛИ (OR)</td>
+                <td>∨</td>
+                <td>Истина, если хотя бы один операнд истинен</td>
+            </tr>
+            <tr>
+                <td>НЕ (NOT)</td>
+                <td>¬</td>
+                <td>Инвертирует логическое значение</td>
+            </tr>
+        </table>
+    </section>
+    <section class="reveal" id="examples">
+        <h2>Примеры</h2>
+        <div class="example">
+            <h3>Пример 1: Операция И</h3>
+            <p>1 ∧ 0 = 0, так как не все операнды истинны.</p>
+        </div>
+        <div class="example">
+            <h3>Пример 2: Операция ИЛИ</h3>
+            <p>1 ∨ 0 = 1, так как хотя бы один операнд истинен.</p>
+        </div>
+    </section>
+    <section class="reveal" id="interactive">
+        <h2>Интерактивная проверка</h2>
+        <div class="checker">
+            <p>Выберите значения A и B и операцию:</p>
+            <label>A:
+                <select id="aVal">
+                    <option value="1">1</option>
+                    <option value="0">0</option>
+                </select>
+            </label>
+            <label>B:
+                <select id="bVal">
+                    <option value="1">1</option>
+                    <option value="0">0</option>
+                </select>
+            </label>
+            <label>Операция:
+                <select id="op">
+                    <option value="and">И</option>
+                    <option value="or">ИЛИ</option>
+                </select>
+            </label>
+            <br><br>
+            <button onclick="checkLogic()">Вычислить</button>
+            <p id="logicResult" style="margin-top: 1rem; font-weight: bold;"></p>
+        </div>
+    </section>
+    <section class="reveal" id="tasks">
+        <h2>Задания для самопроверки</h2>
+        <div class="task">
+            <p><strong>Задание 1.</strong> Найдите результат: 0 ∧ 1</p>
+            <button onclick="toggleAnswer('ans1')">Показать ответ</button>
+            <div id="ans1" class="answer">Ответ: 0</div>
+        </div>
+        <div class="task">
+            <p><strong>Задание 2.</strong> Найдите результат: ¬1</p>
+            <button onclick="toggleAnswer('ans2')">Показать ответ</button>
+            <div id="ans2" class="answer">Ответ: 0</div>
+        </div>
+        <div class="task">
+            <p><strong>Задание 3.</strong> Найдите результат: 0 ∨ 0</p>
+            <button onclick="toggleAnswer('ans3')">Показать ответ</button>
+            <div id="ans3" class="answer">Ответ: 0</div>
+        </div>
+    </section>
+<section id="quiz" class="reveal">
+<h2>Мини‑тест</h2>
+<p>1. 1 ∧ 1 = ?</p>
+<button onclick="answerQuiz(1,1)">1</button>
+<button onclick="answerQuiz(1,0)">0</button>
+<p>2. 0 ∨ 0 = ?</p>
+<button onclick="answerQuiz(2,1)">1</button>
+<button onclick="answerQuiz(2,0)">0</button>
+<p id="quizResult"></p>
+</section>
+</main>
+<footer>
+    <p>&copy; 2025 | Практическая работа 1 | Автор: Баранов Д.А, ИВТ 2.1</p>
+</footer>
+<script>
+    function toggleAnswer(id) {
+        const el = document.getElementById(id);
+        el.classList.toggle('show');
+    }
+    function checkLogic() {
+        const a = Number(document.getElementById('aVal').value);
+        const b = Number(document.getElementById('bVal').value);
+        const op = document.getElementById('op').value;
+        let res;
+        if (op === 'and') res = a && b;
+        if (op === 'or') res = a || b;
+        document.getElementById('logicResult').textContent = `Результат: ${Number(res)}`;
+    }
+    document.querySelectorAll('nav a').forEach(a => {
+        a.addEventListener('click', e => {
+            e.preventDefault();
+            document.querySelector(a.getAttribute('href')).scrollIntoView({behavior: 'smooth'});
+        });
+    });
+    const themeBtn=document.getElementById('themeToggle');
+    themeBtn.onclick=()=>document.body.classList.toggle('dark');
+
+    window.addEventListener('scroll',()=>{
+        const sc=window.scrollY;
+        const h=document.body.scrollHeight-window.innerHeight;
+        document.getElementById('progressBar').style.width=(sc/h*100)+'%';
+        document.querySelectorAll('.reveal').forEach(el=>{
+            if(el.getBoundingClientRect().top<window.innerHeight-50) el.classList.add('active');
+        });
+    });
+
+    let score=0;
+    const rightSound=new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQcAAAAA');
+    const wrongSound=new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQcAAAAA');
+    function answerQuiz(q,a){
+        const correct=[null,1,0];
+        if(a===correct[q]){score++;rightSound.play();}
+        else{wrongSound.play();}
+        document.getElementById('quizResult').textContent='Баллы: '+score+'/2';
+    }
+</script>
+</body>
+</html>

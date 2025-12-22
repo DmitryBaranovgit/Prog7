@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Онлайн-тест: Основы информатики</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#667eea;
+}
+.container{
+    max-width:800px;
+    margin:auto;
+    background:#fff;
+    min-height:100vh;
+}
+header{
+    background:#764ba2;
+    color:#fff;
+    padding:20px;
+    text-align:center;
+}
+.progress{
+    height:6px;
+    background:#ddd;
+}
+.progress div{
+    height:100%;
+    width:0;
+    background:#667eea;
+}
+.info{
+    display:flex;
+    justify-content:space-around;
+    padding:10px;
+    background:#f2f2f2;
+}
+.question{
+    padding:20px;
+}
+.option{
+    padding:12px;
+    border:2px solid #ccc;
+    margin:8px 0;
+    cursor:pointer;
+    transition:.2s;
+}
+.option:hover{
+    background:#f0f0ff;
+}
+.option.selected{
+    background:#e8eaf6;
+    border-color:#667eea;
+}
+.option.correct{background:#c8e6c9;}
+.option.wrong{background:#ffcdd2;}
+.nav{
+    display:flex;
+    justify-content:space-between;
+    padding:15px;
+    background:#f2f2f2;
+}
+button{
+    padding:10px 20px;
+    cursor:pointer;
+}
+.hidden{display:none;}
+.results{
+    padding:20px;
+}
+.stat{
+    background:#f5f5f5;
+    padding:10px;
+    margin:10px 0;
+}
+input[type="text"]{
+    width:100%;
+    padding:10px;
+    font-size:16px;
+}
+@media(max-width:600px){
+    .nav{flex-direction:column; gap:10px;}
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<header>
+    <h1>Тест: Основы информатики</h1>
+    <label>
+        <input type="checkbox" id="practiceMode">
+        Режим практики
+    </label>
+</header>
+
+<div class="info">
+    <div>Вопрос: <strong id="qNum">1</strong></div>
+    <div>Время: <strong id="time">10:00</strong></div>
+</div>
+
+<div class="progress"><div id="bar"></div></div>
+
+<div class="question" id="questionBox"></div>
+
+<div class="nav">
+    <button onclick="prev()">Назад</button>
+    <button onclick="next()">Далее</button>
+    <button onclick="finish()" id="finishBtn" class="hidden">Завершить</button>
+</div>
+
+<div class="results hidden" id="results"></div>
+
+</div>
+
+<audio id="soundOk" src="https://actions.google.com/sounds/v1/cartoon/wood_plank_flicks.ogg"></audio>
+<audio id="soundBad" src="https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg"></audio>
+
+<script>
+const questions = [
+ {q:"Что такое HTML?",t:"single",o:["ЯП","Язык разметки","ОС"],c:1,p:1},
+ {q:"Языки программирования",t:"multiple",o:["Python","HTML","JS","CSS"],c:[0,2],p:2},
+ {q:"2 + 2 =",t:"text",c:"4",p:1},
+ {q:"CSS — это",t:"single",o:["Стили","Скрипты","БД"],c:0,p:1},
+ {q:"Тег ссылки",t:"text",c:"a",p:1},
+ {q:"Операторы JS",t:"multiple",o:["=","==","==="],c:[0,1,2],p:2},
+ {q:"DNS",t:"single",o:["Домены","ЯП","ОС"],c:0,p:1},
+ {q:"Год создания JS",t:"text",c:"1995",p:1},
+ {q:"Современные браузеры",t:"multiple",o:["Chrome","IE6","Firefox"],c:[0,2],p:2},
+ {q:"API — это",t:"single",o:["Интерфейс","Протокол"],c:0,p:1}
+];
+
+let i = 0;
+let answers = JSON.parse(localStorage.getItem("answers")) || [];
+let time = JSON.parse(localStorage.getItem("time")) || 600;
+let timer;
+
+function start(){
+    load();
+    timer = setInterval(()=>{
+        time--;
+        localStorage.setItem("time",time);
+        let m=Math.floor(time/60), s=time%60;
+        document.getElementById("time").textContent=
+            `${m}:${s.toString().padStart(2,'0')}`;
+        if(time<=0) finish();
+    },1000);
+}
+
+function load(){
+    const q = questions[i];
+    document.getElementById("qNum").textContent = i+1;
+    document.getElementById("bar").style.width =
+        ((i+1)/questions.length*100)+"%";
+
+    let html = `<h3>${q.q}</h3>`;
+
+    if(q.t !== "text"){
+        q.o.forEach((opt,idx)=>{
+            let selected = false;
+
+            if(q.t==="single") selected = answers[i] === idx;
+            if(q.t==="multiple")
+                selected = Array.isArray(answers[i]) && answers[i].includes(idx);
+
+            html += `
+              <div class="option ${selected?'selected':''}"
+                   onclick="select(${idx}, this)">
+                   ${opt}
+              </div>`;
+        });
+    } else {
+        html += `
+          <input type="text"
+            value="${answers[i]||''}"
+            oninput="answers[${i}]=this.value;
+                     localStorage.setItem('answers',JSON.stringify(answers))">`;
+    }
+
+    document.getElementById("questionBox").innerHTML = html;
+    document.getElementById("finishBtn")
+        .classList.toggle("hidden", i < questions.length-1);
+}
+
+function select(idx, el){
+    const q = questions[i];
+
+    if(q.t==="single"){
+        answers[i] = idx;
+        document.querySelectorAll('.option')
+            .forEach(o=>o.classList.remove('selected'));
+        el.classList.add('selected');
+    }
+
+    if(q.t==="multiple"){
+        answers[i] = answers[i] || [];
+        if(answers[i].includes(idx)){
+            answers[i] = answers[i].filter(x=>x!==idx);
+            el.classList.remove('selected');
+        } else {
+            answers[i].push(idx);
+            el.classList.add('selected');
+        }
+    }
+
+    localStorage.setItem("answers", JSON.stringify(answers));
+
+    if(document.getElementById("practiceMode").checked){
+        const ok = q.t==="single"
+            ? idx===q.c
+            : q.c.includes(idx);
+        document.getElementById(ok?"soundOk":"soundBad").play();
+    }
+}
+
+function next(){ if(i<questions.length-1){i++;load();}}
+function prev(){ if(i>0){i--;load();}}
+
+function finish(){
+    clearInterval(timer);
+    localStorage.clear();
+    let score=0,max=0;
+    let out="<h2>Результаты</h2>";
+
+    questions.forEach((q,idx)=>{
+        max+=q.p;
+        let ok=false;
+        if(q.t==="single") ok=answers[idx]===q.c;
+        if(q.t==="multiple")
+            ok=JSON.stringify((answers[idx]||[]).sort())
+             ===JSON.stringify(q.c.sort());
+        if(q.t==="text")
+            ok=(answers[idx]||"").toLowerCase()===q.c;
+        if(ok) score+=q.p;
+        out+=`<div class="stat">${q.q} — ${ok?"✔":"✖"}</div>`;
+    });
+
+    out+=`<h3>${score}/${max} (${Math.round(score/max*100)}%)</h3>`;
+    out+=`<button onclick="exportTxt()">Экспорт TXT</button>`;
+
+    document.getElementById("results").innerHTML = out;
+    document.getElementById("results").classList.remove("hidden");
+}
+
+function exportTxt(){
+    let text="Результаты теста\n\n";
+    questions.forEach((q,i)=>{
+        text+=`${i+1}. ${q.q}\n`;
+    });
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(new Blob([text],{type:"text/plain"}));
+    a.download="results.txt";
+    a.click();
+}
+
+start();
+</script>
+</body>
+</html>
