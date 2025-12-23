@@ -14,3 +14,6 @@
 ## Практика 2
 
 ![Практика 2](images/practice2_dashboard.png)
+
+## Практика 3
+![Практика 3](images/practice3_test_analysis.png)
