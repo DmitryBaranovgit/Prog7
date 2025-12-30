@@ -4,9 +4,9 @@
 
 Проект реализует агрегатор погодных данных в виде набора микросервисов:
 
-[weather_service.py](weather_service.py) - Микросервис получения погодных данных по городу
+[weather_service.py](services/weather_service.py) - Микросервис получения погодных данных по городу
 
-[recommendation_service.py](recommendation_service.py) - Сервис формирования рекоменндаций на основе погоды
+[recommendation_service.py](/services/recommendation_service.py) - Сервис формирования рекоменндаций на основе погоды
 
 [history_service.py](history_service.py) - Сервис хранения истории запросов и статистики
 
