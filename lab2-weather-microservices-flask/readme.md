@@ -43,6 +43,7 @@ docker run -p 8080:8080 \
 ## HTTP-запросы
 
 [![GET http://localhost:8080/weather?city=London](images/postman1.png)](images/postman1.png)
+*GET http://localhost:8080/weather?city=London*
 
 [GET http://localhost:8080/weather?city=Berlin](images/postman2.png)
 
