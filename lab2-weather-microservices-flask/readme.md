@@ -1,6 +1,6 @@
 # Weather Microservices (WSGI, Flask)
 
-Учебный проект по лабораторной работе №2: разработка микросервисов с использованием Flask (WSGI), многопроцессности, Docker и serverless-подхода.
+Учебный проект по лабораторной работе №2: разработка микросервисов с использованием **Flask (WSGI), многопроцессности, Docker и serverless-подхода**.
 
 Проект реализует агрегатор погодных данных в виде набора микросервисов:
 
@@ -22,7 +22,7 @@
 
 Взаимодействие между сервисами осуществляется в формате **JSON**.
 
-Для повышения надежности Weather Service реализует параллельное обращение к нескольким источникам данных с использованием модуля multiprocessing
+Для повышения надежности Weather Service реализует параллельное обращение к нескольким источникам данных с использованием модуля **multiprocessing**.
 
 ## Запуск проекта в Docker
 
@@ -42,7 +42,7 @@ docker run -p 8080:8080 \
 
 ## HTTP-запросы
 
-[GET http://localhost:8080/weather?city=London](images/postman1.png)
+![GET http://localhost:8080/weather?city=London](images/postman1.png)
 
 [GET http://localhost:8080/weather?city=Berlin](images/postman2.png)
 
