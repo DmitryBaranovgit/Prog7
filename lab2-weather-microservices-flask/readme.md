@@ -6,13 +6,13 @@
 
 [weather_service.py](services/weather_service.py) - Микросервис получения погодных данных по городу
 
-[recommendation_service.py](/services/recommendation_service.py) - Сервис формирования рекоменндаций на основе погоды
+[recommendation_service.py](services/recommendation_service.py) - Сервис формирования рекоменндаций на основе погоды
 
-[history_service.py](history_service.py) - Сервис хранения истории запросов и статистики
+[history_service.py](services/history_service.py) - Сервис хранения истории запросов и статистики
 
-[test_weather.py](test_weather.py) - модульный тест сервиса погоды
+[test_weather.py](tests/test_weather.py) - модульный тест сервиса погоды
 
-[weather_providers.py](weather_providers.py) - источники данных о погоде (OpenWeatherMap API и mock-провайдер)
+[weather_providers.py](utils/weather_providers.py) - источники данных о погоде (OpenWeatherMap API и mock-провайдер)
 
 [Dockerfile](Dockerfile) - инструкция сборки Docker-образа приложения
 
@@ -42,11 +42,11 @@ docker run -p 8080:8080 \
 
 ## HTTP-запросы
 
-[GET http://localhost:8080/weather?city=London](postman1.png)
+[GET http://localhost:8080/weather?city=London](images/postman1.png)
 
-[GET http://localhost:8080/weather?city=Berlin](postman2.png)
+[GET http://localhost:8080/weather?city=Berlin](images/postman2.png)
 
-[GET http://localhost:8080/weather?city=Tokyo](postman3.png)
+[GET http://localhost:8080/weather?city=Tokyo](images/postman3.png)
 
 
 
